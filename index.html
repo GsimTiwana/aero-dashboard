@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aero Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-container">
+                    <img src="logo.jpg" alt="Aero Logo" class="sidebar-logo">
+                </div>
+                <input type="text" id="locSearch" placeholder="Search Floors..." onkeyup="filterLocations()">
+            </div>
+
+            <ul id="locationList">
+                <li onclick="changeLocation('MP_Floor_1')">MP Floor 1</li>
+                <li onclick="changeLocation('MP_Floor_2')">MP Floor 2</li>
+                <li onclick="changeLocation('MP_Floor_3')" class="active">MP Floor 3</li>
+                <li onclick="changeLocation('MP_Floor_4')">MP Floor 4</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h2 id="currentLocationTitle">MP Floor 3</h2>
+                <span id="liveBadge" class="badge">LIVE DATA</span>
+            </header>
+
+            <section id="liveSection" class="hero-status">
+                <div class="stat-main">
+                    <p>AIR QUALITY SCORE</p>
+                    <h2 id="liveScore">--</h2>
+                </div>
+                <div class="stat-main">
+                    <p>SYSTEM STATUS</p>
+                    <h1 id="airStatus">OFFLINE</h1>
+                </div>
+            </section>
+
+            <section class="charts-grid">
+                <div class="chart-card">
+                    <h3>CO2 Levels (PPM)</h3>
+                    <canvas id="co2Chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Temperature & Humidity</h3>
+                    <canvas id="climateChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Your Firebase Initialization
+        const firebaseConfig = {
+            databaseURL: "https://smart-air-system-a8b40-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
