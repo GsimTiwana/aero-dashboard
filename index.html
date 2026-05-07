@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aero Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AERO | Smart Air Dashboard</title>
+    
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -16,11 +18,11 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="brand-container">
-                    <img src="Logo.jpg" alt="Aero Logo" class="sidebar-logo">
+                    <img src="logo.jpg" alt="Aero Logo" class="sidebar-logo">
                 </div>
                 <input type="text" id="locSearch" placeholder="Search Floors..." onkeyup="filterLocations()">
             </div>
-
+            
             <ul id="locationList">
                 <li onclick="changeLocation('MP_Floor_1')">MP Floor 1</li>
                 <li onclick="changeLocation('MP_Floor_2')">MP Floor 2</li>
@@ -31,6 +33,12 @@
 
         <main class="main-content">
             <header class="content-header">
+                <button id="sidebarToggle" class="toggle-btn">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                
                 <h2 id="currentLocationTitle">MP Floor 3</h2>
                 <span id="liveBadge" class="badge">LIVE DATA</span>
             </header>
@@ -60,12 +68,12 @@
     </div>
 
     <script>
-        // Your Firebase Initialization
         const firebaseConfig = {
             databaseURL: "https://smart-air-system-a8b40-default-rtdb.europe-west1.firebasedatabase.app"
         };
         firebase.initializeApp(firebaseConfig);
     </script>
+
     <script src="app.js"></script>
 </body>
 </html>

@@ -1,3 +1,77 @@
+/* --- 1. BASE LAYOUT UPDATES --- */
+.app-container { 
+    display: flex; 
+    height: 100vh; 
+    width: 100vw; 
+    transition: all 0.3s ease; /* Smooth transition when sidebar moves */
+}
+
+/* Sidebar "Hidden" State */
+.sidebar {
+    width: 300px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* This class will be added/removed by JavaScript */
+.sidebar.collapsed {
+    margin-left: -300px; /* Slides it off-screen */
+    opacity: 0;
+}
+
+/* --- 2. TOGGLE BUTTON STYLING --- */
+.toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--accent-blue);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+/* --- 3. MAIN CONTENT (Expands automatically) --- */
+.main-content { 
+    flex: 1; 
+    padding: 40px; 
+    overflow-y: auto; 
+    transition: all 0.3s ease;
+}
+
+/* --- MOBILE RESPONSIVENESS (Refined) --- */
+@media (max-width: 768px) {
+    .app-container { flex-direction: column; height: auto; }
+    
+    /* On mobile, we hide the sidebar by default */
+    .sidebar { 
+        width: 100%; 
+        margin-left: 0; 
+    }
+    
+    .sidebar.collapsed {
+        margin-top: -100%; /* Slide up instead of left on mobile */
+        margin-left: 0;
+    }
+
+    .hero-status { flex-direction: column; text-align: center; }
+    .charts-grid { grid-template-columns: 1fr; }
+}
+
+
 :root {
     --bg-dark: #0f172a;
     --sidebar-bg: #1e293b;
@@ -15,7 +89,7 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-main);
-    overflow: hidden;
+    /* Removed overflow:hidden from here to allow mobile scrolling */
 }
 
 .app-container { display: flex; height: 100vh; width: 100vw; }
@@ -32,18 +106,18 @@ body {
 
 .brand-container {
     display: flex;
-    justify-content: center; /* Centers the logo horizontally */
+    justify-content: center; 
     align-items: center;
     margin-bottom: 30px;
     width: 100%;
 }
 
 .sidebar-logo {
-    width: 100%;       /* Allows it to fill the width of the container */
-    max-width: 220px;  /* Limits size so it's not overwhelming */
-    height: auto;      /* Maintains aspect ratio so it's not cut off */
+    width: 100%;       
+    max-width: 220px;  
+    height: auto;      
     object-fit: contain;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* Adds a slight lift */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); 
 }
 
 #locSearch {
@@ -119,3 +193,59 @@ body {
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    body { overflow-y: auto; } /* Allow scrolling on mobile */
+    
+    .app-container {
+        flex-direction: column; 
+        height: auto;
+        width: 100%;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 20px;
+    }
+
+    .sidebar-logo {
+        max-width: 160px; /* Scale down logo slightly for mobile */
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    #currentLocationTitle {
+        font-size: 1.6rem;
+    }
+
+    .hero-status {
+        padding: 30px 15px;
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    #liveScore {
+        font-size: 5rem;
+    }
+
+    #airStatus {
+        font-size: 3.5rem;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr; /* Stack charts vertically */
+        gap: 20px;
+    }
+
+    .chart-card {
+        height: 350px;
+        padding: 20px;
+    }
+}

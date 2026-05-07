@@ -166,3 +166,18 @@ function hideLiveUI() {
 }
 
 window.onload = initCharts;
+
+// --- SIDEBAR TOGGLE LOGIC ---
+const sidebar = document.querySelector('.sidebar');
+const toggleBtn = document.getElementById('sidebarToggle');
+
+toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    
+    // Crucial: Tell Chart.js to resize itself after the sidebar moves
+    // Otherwise, charts might stay "squashed" until you manually resize the window
+    setTimeout(() => {
+        if(co2Chart) co2Chart.resize();
+        if(climateChart) climateChart.resize();
+    }, 350); // Wait for the 300ms CSS transition to finish
+});
