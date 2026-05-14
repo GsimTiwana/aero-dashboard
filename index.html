@@ -18,16 +18,20 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="brand-container">
-                    <img src="Logo.jpg" alt="Aero Logo" class="sidebar-logo">
+                    <img src="logo.jpg" alt="Aero Logo" class="sidebar-logo">
                 </div>
                 <input type="text" id="locSearch" placeholder="Search Floors..." onkeyup="filterLocations()">
             </div>
             
             <ul id="locationList">
+                <li onclick="changeLocation('MP_Floor_0')">MP Floor 0</li>
                 <li onclick="changeLocation('MP_Floor_1')">MP Floor 1</li>
                 <li onclick="changeLocation('MP_Floor_2')">MP Floor 2</li>
                 <li onclick="changeLocation('MP_Floor_3')" class="active">MP Floor 3</li>
                 <li onclick="changeLocation('MP_Floor_4')">MP Floor 4</li>
+                <li onclick="changeLocation('MP_Cafeteria')">MP Cafeteria</li>
+                <li onclick="changeLocation('Careers_Room')">Careers Room</li>
+
             </ul>
         </aside>
 
@@ -44,13 +48,20 @@
             </header>
 
             <section id="liveSection" class="hero-status">
-                <div class="stat-main">
-                    <p>AIR QUALITY SCORE</p>
-                    <h2 id="liveScore">--</h2>
+                <div class="gauge-container">
+                    <canvas id="gaugeChart"></canvas>
+                    <div class="gauge-text">
+                        <span id="liveScore">--</span>
+                        <small>SCORE</small>
+                    </div>
                 </div>
-                <div class="stat-main">
-                    <p>SYSTEM STATUS</p>
+
+                <div class="status-info">
+                    <p class="label">SYSTEM STATUS</p>
                     <h1 id="airStatus">OFFLINE</h1>
+                    <div id="adviceCard" class="advice-card">
+                        <p id="adviceText">Connecting to sensors...</p>
+                    </div>
                 </div>
             </section>
 
