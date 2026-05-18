@@ -106,12 +106,14 @@ function showLiveUI(data) {
     } else if (data.score >= 60) { 
         co2Color = "#fbbf24"; co2Status = "FAIR"; co2Advice = "CO2 is acceptable, but consider ventilation."; 
     } else { 
-        co2Color = "#f87171"; co2Status = "POOR"; co2Advice = "CO2 High! Open windows immediately."; 
+        co2Color = "#f87171"; status = "POOR"; co2Advice = "CO2 High! Open windows immediately."; 
     }
 
     // --- 2. HUMIDITY LOGIC (For your water spray demo) ---
     let humColor, humAdvice;
-    const currentHumidity = data.humid; // Grabs the percentage from Firebase
+    
+    // Explicitly targets data.humid, falls back to 45% if it's missing momentarily
+    const currentHumidity = (data && data.humid !== undefined) ? Number(data.humid) : 45; 
 
     if (currentHumidity > 70) {
         // This triggers when you spray the water!
@@ -146,9 +148,12 @@ function showLiveUI(data) {
     document.getElementById('adviceText').innerText = co2Advice;
 
     // Update Humidity Advice Card Visuals
-    humCard.style.borderLeftColor = humColor;
-    document.getElementById('humidityText').innerText = humAdvice;
+    if (humCard) {
+        humCard.style.borderLeftColor = humColor;
+        document.getElementById('humidityText').innerText = humAdvice;
+    }
 }
+
 function hideLiveUI() {
     document.getElementById('liveSection').style.display = "none";
     document.getElementById('liveBadge').style.display = "none";
