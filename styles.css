@@ -19,11 +19,12 @@ body {
     color: var(--text-main);
 }
 
+/* --- DESKTOP LAYOUT --- */
 .app-container { 
     display: flex; 
     height: 100vh; 
     width: 100vw; 
-    overflow: hidden;
+    overflow: hidden; /* Keeps laptop screen rigid and clean */
 }
 
 /* --- SIDEBAR --- */
@@ -34,7 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 30px 20px;
-    transition: all 0.3s ease;
+    transition: margin-left 0.3s ease, transform 0.3s ease;
     flex-shrink: 0;
 }
 
@@ -82,8 +83,7 @@ body {
 .main-content { 
     flex: 1; 
     padding: 40px; 
-    overflow-y: auto; 
-    transition: all 0.3s ease;
+    overflow-y: auto; /* Allows independent scrolling on laptop content */
 }
 
 .content-header { 
@@ -111,7 +111,7 @@ body {
 
 /* --- HERO GAUGE SECTION --- */
 .hero-status {
-    display: none; /* Shown via JS */
+    display: none; 
     background: linear-gradient(145deg, #1e293b, #111827);
     border-radius: 24px;
     padding: 40px;
@@ -158,11 +158,43 @@ body {
     border: 1px solid var(--border);
 }
 
-/* --- MOBILE --- */
+/* --- ENHANCED MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-    .app-container { flex-direction: column; overflow-y: auto; }
-    .sidebar { width: 100%; height: auto; }
-    .sidebar.collapsed { margin-left: 0; margin-top: -100%; }
-    .hero-status { flex-direction: column; padding: 25px; text-align: center; }
-    .charts-grid { grid-template-columns: 1fr; }
+    .app-container { 
+        flex-direction: column; 
+        height: auto;       /* Unlocks the rigid window height constraint */
+        overflow-y: visible; /* Allows the entire screen to flow naturally */
+    }
+    
+    .sidebar { 
+        width: 100%; 
+        height: auto; 
+    }
+    
+    /* Smooth sliding system for mobile nav bar */
+    .sidebar.collapsed { 
+        margin-left: 0; 
+        margin-top: -150%; /* Slides upward out of sight on mobile */
+        display: none;    /* Prevents invisible gaps when hidden */
+    }
+    
+    .main-content {
+        padding: 20px;
+        overflow-y: visible; /* Disables the inner scrolling block so the phone's native momentum scroll takes over */
+    }
+
+    .hero-status { 
+        flex-direction: column; 
+        padding: 25px; 
+        text-align: center; 
+        gap: 20px;
+    }
+    
+    .charts-grid { 
+        grid-template-columns: 1fr; /* Stacks charts perfectly */
+    }
+
+    .chart-card {
+        height: 320px; /* Slightly shorter for cleaner mobile viewing */
+    }
 }
