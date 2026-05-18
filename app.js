@@ -106,7 +106,7 @@ function showLiveUI(data) {
     } else if (data.score >= 60) { 
         co2Color = "#fbbf24"; co2Status = "FAIR"; co2Advice = "CO2 is acceptable, but consider ventilation."; 
     } else { 
-        co2Color = "#f87171"; status = "POOR"; co2Advice = "CO2 High! Open windows immediately."; 
+        co2Color = "#f87171"; co2Status = "POOR"; co2Advice = "CO2 High! Open windows immediately."; 
     }
 
     // --- 2. HUMIDITY LOGIC (For your water spray demo) ---
