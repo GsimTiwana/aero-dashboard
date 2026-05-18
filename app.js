@@ -99,20 +99,56 @@ function showLiveUI(data) {
     document.getElementById('liveBadge').style.display = "block";
     document.getElementById('liveScore').innerText = data.score;
     
-    let color, status, advice;
-    if (data.score >= 80) { color = "#4ade80"; status = "EXCELLENT"; advice = "Air is fresh and healthy!"; }
-    else if (data.score >= 60) { color = "#fbbf24"; status = "FAIR"; advice = "Acceptable, but consider ventilation."; }
-    else { color = "#f87171"; status = "POOR"; advice = "CO2 High! Open windows immediately."; }
+    // --- 1. CO2 LOGIC ---
+    let co2Color, co2Status, co2Advice;
+    if (data.score >= 80) { 
+        co2Color = "#4ade80"; co2Status = "EXCELLENT"; co2Advice = "CO2 levels are fresh and healthy!"; 
+    } else if (data.score >= 60) { 
+        co2Color = "#fbbf24"; co2Status = "FAIR"; co2Advice = "CO2 is acceptable, but consider ventilation."; 
+    } else { 
+        co2Color = "#f87171"; co2Status = "POOR"; co2Advice = "CO2 High! Open windows immediately."; 
+    }
 
+    // --- 2. HUMIDITY LOGIC (For your water spray demo) ---
+    let humColor, humAdvice;
+    const currentHumidity = data.humid; // Grabs the percentage from Firebase
+
+    if (currentHumidity > 70) {
+        // This triggers when you spray the water!
+        humColor = "#60a5fa"; // Bright Water Blue
+        humAdvice = `💧 High Humidity (${currentHumidity}%): Moisture spike detected! Risk of condensation or dampness.`;
+    } else if (currentHumidity >= 30 && currentHumidity <= 70) {
+        // Normal room comfort zone
+        humColor = "#4ade80"; // Green
+        humAdvice = `🍃 Ideal Humidity (${currentHumidity}%): Moisture comfort levels are perfectly balanced.`;
+    } else {
+        // Dry air
+        humColor = "#fbbf24"; // Amber
+        humAdvice = `🌵 Dry Air (${currentHumidity}%): Low humidity detected. Consider using a humidifier.`;
+    }
+
+    // --- 3. APPLY TO THE LIVE INTERFACE ---
     const statusEl = document.getElementById('airStatus');
-    statusEl.innerText = status; statusEl.style.color = color;
+    const co2Card = document.getElementById('adviceCard');
+    const humCard = document.getElementById('humidityCard');
+    
+    // Update main overall text status
+    statusEl.innerText = co2Status; 
+    statusEl.style.color = co2Color;
+    
+    // Update Gauge colors/values
     gaugeChart.data.datasets[0].data = [data.score, 100 - data.score];
-    gaugeChart.data.datasets[0].backgroundColor[0] = color;
+    gaugeChart.data.datasets[0].backgroundColor[0] = co2Color;
     gaugeChart.update();
-    document.getElementById('adviceCard').style.borderLeftColor = color;
-    document.getElementById('adviceText').innerText = advice;
-}
+    
+    // Update CO2 Advice Card Visuals
+    co2Card.style.borderLeftColor = co2Color;
+    document.getElementById('adviceText').innerText = co2Advice;
 
+    // Update Humidity Advice Card Visuals
+    humCard.style.borderLeftColor = humColor;
+    document.getElementById('humidityText').innerText = humAdvice;
+}
 function hideLiveUI() {
     document.getElementById('liveSection').style.display = "none";
     document.getElementById('liveBadge').style.display = "none";
